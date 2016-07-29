@@ -11,14 +11,16 @@ import android.widget.Toast;
 public class MainActivity extends  Activity implements View.OnClickListener {
     EditText et_id,et_password;
     Button bt_login,bt_regist;
+    MemberService service;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-    et_id = (EditText) findViewById(R.id.et_id);
+        service = new MemberServiceImpl(this.getApplicationContext());
+        et_id = (EditText) findViewById(R.id.et_id);
 
-    et_password= (EditText) findViewById(R.id.et_password);
+        et_password= (EditText) findViewById(R.id.et_password);
         bt_login= (Button) findViewById(R.id.bt_login);
         bt_regist= (Button) findViewById(R.id.bt_regist);
         bt_login.setOnClickListener(this);
@@ -33,11 +35,13 @@ public class MainActivity extends  Activity implements View.OnClickListener {
         case R.id.bt_regist:
             startActivity(new Intent(this,Main2Activity.class ));
 
+
             break;
         case R.id.bt_login:
             Toast.makeText(MainActivity.this,"ID:"+et_id.getText().toString()
                     +"PW:"+et_password.getText().toString()
                     ,Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this,HomeActivity.class));
             break;
     }
     }

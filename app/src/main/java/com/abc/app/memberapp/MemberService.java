@@ -10,6 +10,10 @@ public interface MemberService {
     public void update(MemberBean mem);
     public void delete(MemberBean mem);
     public MemberBean findById(String id);
+    public void logout(MemberBean member);
+    public int count();
+    public List<?> list();
+    public MemberBean show();
     public List<?> findBy(String keyword);
 
 

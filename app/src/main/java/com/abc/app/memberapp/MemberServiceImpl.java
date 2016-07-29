@@ -1,77 +1,61 @@
 package com.abc.app.memberapp;
 
-import com.abc.app.memberapp.MemberBean;
-import com.abc.app.memberapp.MemberDAO;
-import com.abc.app.memberapp.MemberService;
+import android.content.Context;
 
 import java.util.List;
-import java.util.Map;
 
 /**
  * Created by hb2017 on 2016-07-27.
  */
 public class MemberServiceImpl implements MemberService {
 
-
+      MemberDAO dao ;
     MemberBean session;
-    private static MemberServiceImpl instance = new MemberServiceImpl();
 
-    private MemberServiceImpl() {
-        // TODO Auto-generated constructor stub
+    public MemberServiceImpl(Context context) {
+         dao = new MemberDAO(context);
     }
 
-    public static MemberServiceImpl getInstance() {
-        return instance;
-    }
-
-    // MemberBean mem = Class.forName("member.MemberBean").newInstance();
     @Override
-    // 1.등록
     public String regist(MemberBean mem) {
-        // TODO Auto-generated method stub
         String msg = "";
-        int result = dao.insert(mem);
-        if (result == 1) {
-            msg = "가입 성공";
+        MemberBean temp = this.findById(mem.getId());
+        if (temp == null) {
+            System.out.println(mem.getId()+"가 존재하지 않음,가입 가능한 ID");
+            int result = dao.insert(mem);
+            if (result==0) {
+                msg = "success";
+
+            } else {
+                msg = "fail";
+            }
         } else {
-            msg = "가입 실패";
+            System.out.println(mem.getId()+"가 존재함,가입 불가능한 ID");
+            msg = "fail";
         }
+
         return msg;
     }
 
-    @Override
-    // 2.보기
-    public String show() {
-        // TODO Auto-generated method stub
-        return null;
-    }
 
     @Override
-    // 3. 수정
     public void update(MemberBean mem) {
-
         int result = dao.update(mem);
-
         if (result == 1) {
-            session = this.findByID(mem.getId());
+            System.out.println("서비스 수정결과 성공");
+        }else{
+            System.out.println("서비스 수정결과 실패");
         }
-
     }
-
     @Override
-    // 4. 삭제
-    public void delete(MemberBean mem) {
-        // TODO Auto-generated method stub
-        String msg = "";
-
-        if (dao.delete(mem) == 1) {
-            msg = "변경 성공";
-            session = null;
-        } else {
-            msg = "변경 실패";
-        }
-
+    public MemberBean show() {
+        return session;
     }
+    @Override
+    public void delete(MemberBean member) {
+        dao.delete(member);
+    }
+
 
     @Override
     public int count() {
@@ -79,47 +63,26 @@ public class MemberServiceImpl implements MemberService {
         return dao.count();
     }
 
-    @Override
-    public MemberBean findByID(String findID) {
-        // TODO Auto-generated method stub
 
-        return dao.findByID(findID);
+    @Override
+    public MemberBean findById(String findID) {
+        return dao.findById(findID);
     }
 
+
     @Override
-    public List<MemberBean> list() {
+    public List<?> list() {
 
         return dao.list();
     }
-
     @Override
-    public List<MemberBean> findByName(String findName) {
-        // TODO Auto-generated method stub
-        return dao.findByName(findName);
+    public List<?> findBy(String keyword) {
+        return dao.findByName(keyword);
     }
-
-    @Override
-    public String login(MemberBean member) {
-        // TODO Auto-generated method stub\
-        String result = "";
-
-        if (dao.login(member)) {
-
-            session = dao.findByID(member.getId());
-            result = session.getName();
-            accService.map();
-            System.out.println("impl"+session);
-        } else {
-            result = "";
-        }
-        return result;
-    }
-
-
-
     @Override
     public void logout(MemberBean member) {
-        if (member.getId().equals(session.getId()) && member.getPw().equals(session.getPw())) {
+        if (member.getId().equals(session.getId())
+                && member.getPw().equals(session.getPw())) {
             session = null;
         }
 

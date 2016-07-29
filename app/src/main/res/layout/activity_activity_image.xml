@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingBottom="@dimen/activity_vertical_margin"
+    android:paddingLeft="@dimen/activity_horizontal_margin"
+    android:paddingRight="@dimen/activity_horizontal_margin"
+    android:paddingTop="@dimen/activity_vertical_margin"
+    tools:context="com.abc.app.memberapp.ActivityImage">
+<TextView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="이미지 뷰 샘플"
+    android:textSize="20dp"
+    android:textStyle="bold"
+    android:id="@+id/tv_title"
+    />
+    <ImageView
+        android:id="@+id/iv_mid"
+        android:layout_width="wrap_content"
+        android:layout_height="300dp"
+        android:src="@drawable/desert"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/tv_title" />
+    <Button
+        android:id="@+id/bt_prev"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="showPrev"
+        android:text="이전 이미지 보기"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+    <Button
+        android:id="@+id/bt_next"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="next"
+        android:text="이전 이미지 보기"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true" />
+
+</RelativeLayout>

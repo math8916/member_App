@@ -15,7 +15,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".Main2Activity"></activity>
+        <activity android:name=".Main2Activity" />
+        <activity android:name=".ActivityImage" />
+        <activity android:name=".MemberListActivity" />
+        <activity android:name=".HomeActivity"></activity>
     </application>
 
 </manifest>

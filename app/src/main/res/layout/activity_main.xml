@@ -45,4 +45,7 @@
         android:text="Sign in"
         android:id="@+id/bt_regist"
         />
+
+
+
 </LinearLayout>
