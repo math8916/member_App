@@ -87,14 +87,32 @@ return result;
     }
 
 
-    public List<?> list() {
-        String sql = "select * from member;";
+    public List<MemberBean> list() {
+        String sql = "select " + String.format("%s,%s,%s,%s,%s,%s,%s ", ID, PW, NAME, SSN, EMAIL, PROFILE, PHONE) + " from " + TABLE_NAME + ";";
         List<MemberBean> list = new ArrayList<MemberBean>();
-    SQLiteDatabase db=this.getReadableDatabase();
-        Cursor cursor= db.rawQuery(sql,null);
-        return list;
-    }
+        SQLiteDatabase db = this.getReadableDatabase();
+        Cursor cursor = db.rawQuery(sql, null);
+        if (cursor != null) {
+            Log.d("Dao list", "목록에 진입 성공 !!!!!!!!!!!!!");
+            cursor.moveToFirst();
+        }
+        Log.d("Dao list", "목록에 진입 성공 !!!!!!!!!!!!!");
+        do {
 
+            MemberBean temp = new MemberBean();
+            temp.setId(cursor.getString(0));
+            temp.setPw(cursor.getString(1));
+            temp.setName(cursor.getString(2));
+            temp.setSsn(cursor.getString(3));
+            temp.setEmail(cursor.getString(4));
+            temp.setProfile(cursor.getString(5));
+            temp.setPhone(cursor.getString(6));
+            list.add(temp);
+
+        } while (cursor.moveToNext());
+        return list;
+
+    }
     public MemberBean findById(String pk) {
         String sql = "select * from member where id = ?;";
         MemberBean temp = null;
@@ -104,7 +122,7 @@ return result;
     }
 
 
-    public List<?> findByName(String name) {
+    public List<MemberBean> findByName(String name) {
         String sql = "select * from member where name = ?;";
         List<MemberBean> list2 = new ArrayList<MemberBean>();
 SQLiteDatabase db=this.getReadableDatabase();
@@ -123,16 +141,31 @@ SQLiteDatabase db=this.getReadableDatabase();
 
     public boolean login(MemberBean param) {
         boolean loginOk= false;
-        String sql="select pw from member where id ='hong';";
-        if(param.getId()!=null
+        String sql="select "+PW+" from "+TABLE_NAME
+                +String.format(" where id ='%s';",param.getId());
+       /* if(param.getId()!=null
                 && param.getPw()!=null
                 && this.existId(param.getId())){
             MemberBean member = this.findById(param.getId());
             if(member.getPw().equals(param.getPw())){
                 loginOk = true;
             }
-        }
+        }*/
         SQLiteDatabase db=this.getReadableDatabase();
+        String pw="";
+        Cursor cursor=db.rawQuery(sql,null);
+        if(cursor.moveToFirst()){
+            pw=cursor.getString(0);
+        }
+        if (pw.equals("")){
+            Log.d("DAO 로그인 결과=","일치하는 비번이 없음");
+        loginOk=false;
+        }else {
+            Log.d("DAO id :",param.getId());
+            Log.d("DAO pw :",param.getPw());
+            loginOk=(pw.equals(param.getPw()))?true:false;
+
+        }
 
         System.out.println("LOGIN_OK ?"+loginOk);
         return loginOk;

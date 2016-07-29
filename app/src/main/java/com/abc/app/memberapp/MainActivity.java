@@ -18,6 +18,7 @@ public class MainActivity extends  Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         service = new MemberServiceImpl(this.getApplicationContext());
+
         et_id = (EditText) findViewById(R.id.et_id);
 
         et_password= (EditText) findViewById(R.id.et_password);
@@ -41,8 +42,15 @@ public class MainActivity extends  Activity implements View.OnClickListener {
             Toast.makeText(MainActivity.this,"ID:"+et_id.getText().toString()
                     +"PW:"+et_password.getText().toString()
                     ,Toast.LENGTH_LONG).show();
-            startActivity(new Intent(this,HomeActivity.class));
-            break;
+            MemberBean member = new MemberBean();
+            member.setId(et_id.getText().toString());
+            member.setPw(et_password.getText().toString());
+            if (service.login(member)) {
+                startActivity(new Intent(this, HomeActivity.class));
+            }else {
+                startActivity(new Intent(this, MainActivity.class));
+            }
+                break;
     }
     }
 }

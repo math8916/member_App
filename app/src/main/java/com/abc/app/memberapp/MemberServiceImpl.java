@@ -69,15 +69,20 @@ public class MemberServiceImpl implements MemberService {
         return dao.findById(findID);
     }
 
+    @Override
+    public boolean login(MemberBean member) {
+        return dao.login(member);
+    }
+
 
     @Override
-    public List<?> list() {
+    public List<MemberBean> list() {
 
         return dao.list();
     }
     @Override
-    public List<?> findBy(String keyword) {
-        return dao.findByName(keyword);
+    public List<MemberBean> findBy(String keyword) {
+        return dao.list();
     }
     @Override
     public void logout(MemberBean member) {

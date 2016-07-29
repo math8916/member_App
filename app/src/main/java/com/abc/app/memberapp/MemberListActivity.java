@@ -11,12 +11,16 @@ import java.util.ArrayList;
 
 public class MemberListActivity extends Activity {
     ListView lv_member_list;
+    MemberService service;
+    Phone phone;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_member_list);
-        ArrayList<MemberBean> list = this.getList();
+        service =new MemberServiceImpl(this.getApplicationContext());
+        phone =new Phone(this,this);
+        ArrayList<MemberBean> list = (ArrayList<MemberBean>) service.list();
         lv_member_list = (ListView) findViewById(R.id.lv_member_list);
         lv_member_list.setAdapter(new MemberAdapter(this, list));
         lv_member_list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -27,7 +31,7 @@ public class MemberListActivity extends Activity {
            //     Toast.makeText(MemberListActivity.this, "선택한 이름 ====" + o.toString(), Toast.LENGTH_LONG);
                 Log.d("테스트",mem.getPhone());
            //     MemberBean member = (MemberBean) o;
-
+        phone.directCall(mem.getPhone());
             }
         });
     }
